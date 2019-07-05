@@ -1,6 +1,7 @@
-import numpy as numpy
+import numpy as np
 from dlgo.encoders.base import Encoder
-from dlgo.goboard import Move, Point
+from dlgo.gotypes import Point
+from dlgo.goboard_fast import Move
 
 
 class SevenPlaneEncoder(Encoder):
@@ -24,10 +25,10 @@ class SevenPlaneEncoder(Encoder):
                 if go_string is None:
                     if game_state.does_move_violate_ko(game_state.next_player, Move.play(p)):
                         board_tensor[6][row][col] = 1
-                    else:
-                        libery_plane = min(3, go_string.num_liberties) - 1
-                        libery_plane += base_plane([go_string.color])
-                        board_tensor[libery_plane][row][col] = 1
+                else:
+                    libery_plane = min(3, go_string.num_liberties) - 1
+                    libery_plane += base_plane[go_string.color]
+                    board_tensor[libery_plane][row][col] = 1
         return board_tensor
 
     def encode_point(self, point):
@@ -40,6 +41,9 @@ class SevenPlaneEncoder(Encoder):
 
     def num_points(self):
         return self.board_width * self.board_height
+
+    def shape(self):
+        return self.num_planes, self.board_height, self.board_width
 
 def create(board_size):
     return SevenPlaneEncoder(board_size)
