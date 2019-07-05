@@ -294,7 +294,7 @@ class GameState():
         return (self.next_player, self.board)
 
     def does_move_violate_ko(self, player, move):
-        if not move.isplay:
+        if not move.is_play:
             return False
         if not self.board.will_capture(player, move.point):
             return False

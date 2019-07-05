@@ -1,5 +1,5 @@
 import copy
-from go_types import Player
+from gotypes import Player
 
 class Move():
   def __init__(
