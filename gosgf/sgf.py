@@ -822,6 +822,3 @@ class Sgf_game:
         if date is None:
             date = datetime.date.today()
         self.root.set('DT', date.strftime("%Y-%m-%d"))
-×
-Drag and Drop
-The image will be downloaded by Fatkun

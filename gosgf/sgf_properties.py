@@ -761,6 +761,3 @@ class Presenter(_Context):
         """
         return self.serialise_as_type(
             self._get_effective_property_type(identifier), value)
-×
-Drag and Drop
-The image will be downloaded by Fatkun

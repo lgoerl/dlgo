@@ -531,6 +531,3 @@ def escape_text(s):
 
     """
     return s.replace(b"\\", b"\\\\").replace(b"]", b"\\]")
-×
-Drag and Drop
-The image will be downloaded by Fatkun
