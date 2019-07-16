@@ -56,3 +56,12 @@ def combine_experience(collection):
         actions=np.concatenate([c.actions for c in collection]),
         rewards=np.concatenate([c.rewards for c in collection]),
     )
+
+def prepare_experience(experience, board_width, board_height):
+    experience_size = experience.actions.shape[0]
+    target_vectors = np.zeros((experience_size, board_width * board_height))
+    for i in range(experience_size):
+        action = experience.actions[i]
+        reward = experience.rewards[i]
+        target_vectors[i][action] = reward
+    return target_vectors

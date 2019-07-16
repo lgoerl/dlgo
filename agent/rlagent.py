@@ -4,8 +4,10 @@ from dlgo.agent.base import Agent
 from dlgo.agent.helpers import is_point_an_eye
 from dlgo.encoders.base import get_encoder_by_name
 from dlgo.kerasutil import load_model_from_hdf5_group
+from dlgo.reinforcement.experience import prepare_experience
 from keras.layers.core import Dense, Activation
 from keras.models import Sequential
+from kers.optimizers import SGD
 
 class PolicyAgent(Agent):
     def __init__(self, model, encoder):
@@ -47,6 +49,11 @@ class PolicyAgent(Agent):
                     self.collector.record_decision(state=board_tensor, action=point_idx)
                 return goboard.Move.play(point)
         return goboard.Move.pass_turn()
+
+    def train(self, experience, lr, clipnorm, batch_size):
+        self.model.compile(loss='categorical_crossentropy', optimizer=SGD(lr=lr, clipnorm=clipnorm))
+        target_vectors = prepare_experience(experience, self.encoder.board_width, self.encoder.board_height)
+        self.model.fit(experience.states, target_vectors, batch_size=batch_size, epochs=1)
 
 def clip_probs(probs):
     min_p = 1e-5
